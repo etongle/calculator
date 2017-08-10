@@ -66,7 +66,7 @@
               <mt-radio style="float: left" v-model="form1.repayment" :options="['等额本息', '等额本金']"></mt-radio>
             </mt-cell>
             <mt-cell title="贷款金额">
-              <input type="text" v-model="form1.total">万元
+              <input type="number" v-model="form1.total">万元
             </mt-cell>
             <mt-cell title="贷款年限">
               <select v-model="form1.year" >
@@ -82,7 +82,7 @@
               </select>
             </mt-cell>
             <mt-cell title="公积金利率">
-              <input type="text" v-model="form1.yearRate">
+              <input type="number" v-model="form1.yearRate">
             </mt-cell>
             <mt-button type="primary" @click="submit1()" style="width: 90%;margin-left: 5%">开始计算</mt-button>
           </mt-tab-container-item>
@@ -119,7 +119,7 @@
               <mt-radio style="float: left" v-model="form2.repayment" :options="['等额本息', '等额本金']"></mt-radio>
             </mt-cell>
             <mt-cell title="贷款金额">
-              <input type="text" v-model="form2.total">万元
+              <input type="number" v-model="form2.total">万元
             </mt-cell>
             <mt-cell title="贷款年限">
               <select v-model="form2.year">
@@ -141,7 +141,7 @@
               </select>
             </mt-cell>
             <mt-cell title="商业年利率">
-              <input type="text" v-model="form2.yearRate">
+              <input type="number" v-model="form2.yearRate">
             </mt-cell>
             <mt-button type="primary" style="width: 90%;margin-left: 5%" @click="submit2()">开始计算</mt-button>
           </mt-tab-container-item>
@@ -178,10 +178,10 @@
               <mt-radio style="float: left" v-model="form3.repayment" :options="['等额本息', '等额本金']"></mt-radio>
             </mt-cell>
             <mt-cell title="公积金贷款金额">
-              <input type="text" v-model="form3.totalGjj">万元
+              <input type="number" v-model="form3.totalGjj">万元
             </mt-cell>
             <mt-cell title="商业贷款金额">
-              <input type="text" v-model="form3.totalSy">万元
+              <input type="number" v-model="form3.totalSy">万元
             </mt-cell>
             <mt-cell title="贷款年限">
               <select v-model="form3.year">
@@ -211,10 +211,10 @@
               </select>
             </mt-cell>
             <mt-cell title="公积金年利率">
-              <input type="text" v-model="form3.yearRateGjj">
+              <input type="number" v-model="form3.yearRateGjj">
             </mt-cell>
             <mt-cell title="商业年利率">
-              <input type="text" v-model="form3.yearRateSy">
+              <input type="number" v-model="form3.yearRateSy">
             </mt-cell>
             <mt-button ref="xxx" @click="submit3()" type="primary" style="width: 90%;margin-left: 5%">开始计算</mt-button>
           </mt-tab-container-item>
@@ -243,8 +243,8 @@
         form1: {
           repayment: '等额本息', // 还款方式
           total: '', // 贷款金额
-          year: '', // 贷款年限
-          yearRate: '', // 年利率
+          year: '20', // 贷款年限
+          yearRate: '0.0325', // 年利率
         },
         result1: {
           total: '', // 贷款总额
@@ -256,8 +256,8 @@
          form2: {
           repayment: '等额本息', // 还款方式
           total: '', // 贷款金额
-          year: '', // 贷款年限
-          yearRate: '', // 年利率
+          year: '20', // 贷款年限
+          yearRate: '0.049', // 年利率
         },
         result2: {
           total: '', // 贷款总额
@@ -270,9 +270,9 @@
           repayment: '等额本息', // 还款方式
           totalGjj: '', // 公基金贷款金额
           totalSy: '', // 商业贷款
-          year: '', // 贷款年限
-          yearRateGjj: '', // 公基金年利率
-          yearRateSy: '', // 商业年利率
+          year: '20', // 贷款年限
+          yearRateGjj: '0.0325', // 公基金年利率
+          yearRateSy: '0.049', // 商业年利率
         },
         result3: {
           totalAll: '', // 贷款总额
@@ -348,6 +348,10 @@
       // 第一页执行计算
       submit1() {
         // 进行数据转换
+        if (!this.form1.total) {
+          this.$toast('请输入贷款金额')
+          return 
+          }
         (this.form1.total) ? this.form1.total = Number(this.form1.total): this.form1.total = 0;
         (this.form1.year) ? this.form1.year = Number(this.form1.year) : this.form1.year = 0;
         (this.form1.yearRate) ? this.form1.yearRate = Number(this.form1.yearRate) : this.form1.yearRate = 0;
@@ -371,6 +375,10 @@
         // 第二页执行计算
         submit2() {
         // 进行数据转换
+                if (!this.form2.total) {
+          this.$toast('请输入贷款金额')
+          return 
+          }
         (this.form2.total) ? this.form2.total = Number(this.form2.total): this.form2.total = 0;
         (this.form2.year) ? this.form2.year = Number(this.form2.year) : this.form2.year = 0;
         (this.form2.yearRate) ? this.form2.yearRate = Number(this.form2.yearRate) : this.form2.yearRate = 0;
@@ -393,6 +401,14 @@
         },
         submit3() {
            // 进行数据转换
+         if (!this.form3.totalGjj) {
+          this.$toast('请输入公积金贷款金额')
+          return 
+          }  
+                   if (!this.form3.totalSy) {
+          this.$toast('请输入商业贷款金额')
+          return 
+          }  
         (this.form3.totalGjj) ? this.form3.totalGjj = Number(this.form3.totalGjj): this.form3.totalGjj = 0;
         (this.form3.totalSy) ? this.form3.totalSy = Number(this.form3.totalSy): this.form3.totalSy = 0;
         (this.form3.year) ? this.form3.year = Number(this.form3.year) : this.form3.year = 0;
